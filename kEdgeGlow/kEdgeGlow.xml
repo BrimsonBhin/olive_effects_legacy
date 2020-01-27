@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="kEdgeGlow" category="Community">
+	
+	<row name="Color">
+		<field type="double" min="0.0" default="5.0" id="kBlueAmount"/>
+		<field type="double" min="0.0" default="1.0" id="kGreenAmount"/>
+	</row>
+
+	<row name="Radius">
+		<field type="double" min="0.0" default="1.0" id="kRadius"/>
+	</row>
+
+	<shader vert="../COMMON/common.vert" frag="kEdgeGlow.frag"/>
+</effect>

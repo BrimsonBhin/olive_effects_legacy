@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kBloom" category="Community">
+	
+	<row name="Bloom_Threshold">
+		<field type="double" min="0.0" default="10.0" max="100.0" id="kBloomThreshold"/>
+	</row>
 
-    <row name="Bloom_Threshold">
-        <field type="double" min="0.0" default="10.0" max="100.0" id="kBloomThreshold"/>
-    </row>
+	<row name="Bloom_Intensity">
+		<field type="double" min="0.0" default="3.0" id="kBloomIntensity"/>
+	</row>
 
-    <row name="Bloom_Intensity">
-        <field type="double" min="0.0" default="3.0" id="kBloomIntensity"/>
-    </row>
+	<row name="Bloom_Size">
+		<field type="double" min="0.0" default="9.0" id="kBlurSize"/>
+	</row>
 
-    <row name="Bloom_Size">
-        <field type="double" min="0.0" default="9.0" id="kBlurSize"/>
-    </row>
-
-    <shader vert="../COMMON/common.vert" frag="kBloom.frag"/>
+	<shader vert="../COMMON/common.vert" frag="kBloom.frag"/>
 </effect>

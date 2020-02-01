@@ -20,7 +20,7 @@ uniform float kSpeed;
 //  1 out, 1 in...
 float hash11(float p)
 {
-    vec3 p3  = fract(vec3(p) * HASHSCALE1);
+	vec3 p3  = fract(vec3(p) * HASHSCALE1);
     p3 += dot(p3, p3.yzx + 19.19);
     return fract((p3.x + p3.y) * p3.z);
 }
@@ -30,20 +30,20 @@ vec3 hash31(float p)
 {
    vec3 p3 = fract(vec3(p) * HASHSCALE3);
    p3 += dot(p3, p3.yzx+19.19);
-   return fract((p3.xxy+p3.yzz)*p3.zyx);
+   return fract((p3.xxy+p3.yzz)*p3.zyx); 
 }
 
 vec2 hash21(float p)
 {
-    vec3 p3 = fract(vec3(p) * HASHSCALE3);
-    p3 += dot(p3, p3.yzx + 19.19);
+	vec3 p3 = fract(vec3(p) * HASHSCALE3);
+	p3 += dot(p3, p3.yzx + 19.19);
     return fract((p3.xx+p3.yz)*p3.zy);
 
 }
 
 vec3 hash33(vec3 p3)
 {
-    p3 = fract(p3 * HASHSCALE3);
+	p3 = fract(p3 * HASHSCALE3);
     p3 += dot(p3, p3.yxz+19.19);
     return fract((p3.xxy + p3.yxx)*p3.zyx);
 
@@ -175,14 +175,14 @@ void main()
 {
     float time_scale = 0.1;
     float time = time * time_scale;
-
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
-
+    
+	vec2 uv = gl_FragCoord.xy / resolution.xy;
+    
     vec3 skew = hash33(vec3(uv.x, 8.0 * time, uv.y)) * 0.1;
-
-    uv += 0.01 * Perlin3D(vec3((kXdetail * 10.0) * uv.x, kSpeed * time, (kYdetail * 10.0) * uv.y) + skew);
+    
+    uv += 0.01 * Perlin3D(vec3((kXdetail * 10.0) * uv.x, kSpeed * time, (kYdetail * 10.0) * uv.y) + skew);    
 
     vec3 bg = texture2D(image, uv).rgb;
-
-    gl_FragColor = vec4(vec3(bg), 1.0);
+    
+	gl_FragColor = vec4(vec3(bg), 1.0);
 }

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kBokeh" category="Community">
-	
+    
 
-	<row name="Contrast">
-		<field type="double" min="0.0" default="250.0" id="kContrastAmount"/>
-	</row>
+    <row name="Contrast">
+        <field type="double" min="0.0" default="250.0" id="kContrastAmount"/>
+    </row>
 
-	<row name="Smooth">
-		<field type="double" min="0" default="2.0" id="kSmooth"/>
-	</row>
+    <row name="Smooth">
+        <field type="double" min="0" default="2.0" id="kSmooth"/>
+    </row>
 
 
-	<row name="Radius">
-		<field type="double" min="0.0" default="100.0" id="kRadius"/>
-	</row>
+    <row name="Radius">
+        <field type="double" min="0.0" default="100.0" id="kRadius"/>
+    </row>
 
-	<shader vert="../COMMON/common.vert" frag="kBokeh.frag"/>
+    <shader vert="../COMMON/common.vert" frag="kBokeh.frag"/>
 </effect>

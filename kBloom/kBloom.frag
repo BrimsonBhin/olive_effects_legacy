@@ -23,7 +23,17 @@ uniform float kBlurSize;
 #define kBlurSubdivisions 32
 
 vec3 getHDR(vec3 tex) {
-    return max((tex - (kBloomThreshold/100.0)) * (kBloomIntensity/100.0), 0.0);
+    return max((tex - (kBloomThreshold/10.0)) * (kBloomIntensity/10.0), 0.0);
+}
+
+vec3 ACESFilm(vec3 x)
+{
+    float a = 2.51;
+    float b = 0.03;
+    float c = 2.43;
+    float d = 0.59;
+    float e = 0.14;
+    return (x*(a*x+b))/(x*(c*x+d)+e);
 }
 
 vec3 gaussian(sampler2D sampler, vec2 uv) {
@@ -53,5 +63,5 @@ void main(void)
 	vec4 tx = texture2D(image, uv);
     
     gl_FragColor.xyz = gaussian(image, uv);
-    gl_FragColor.xyz = blend(tx.xyz, gl_FragColor.xyz);
+    gl_FragColor.xyz = blend(tx.xyz, ACESFilm(gl_FragColor.xyz));
 }

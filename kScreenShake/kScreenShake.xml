@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="kScreenShake" category="Community">
+    
+    <row name="Amount">
+        <field type="double" min="0.0" default="0.2" id="kAmount"/>
+    </row>
+
+    <row name="Rotation">
+        <field type="double" min="0.0" default="0.1" id="kRotationAmount"/>
+    </row>
+
+    <row name="Speed">
+        <field type="double" min="0.0" default="0.1" id="kSpeed"/>
+    </row>
+
+    <shader vert="../COMMON/common.vert" frag="kScreenShake.frag"/>
+</effect>

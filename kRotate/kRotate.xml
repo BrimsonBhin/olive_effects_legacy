@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kRotate" category="Community">
-	
-	<row name="Degree">
-		<field type="double" default="0.0" id="kDegree"/>
-	</row>
+    
+    <row name="Degree">
+        <field type="double" default="0.0" id="kDegree"/>
+    </row>
 
-	<shader vert="../COMMON/common.vert" frag="kRotate.frag"/>
+    <shader vert="../COMMON/common.vert" frag="kRotate.frag"/>
 </effect>

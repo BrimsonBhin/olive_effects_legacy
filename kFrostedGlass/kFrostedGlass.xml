@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kFrostedGlass" category="Community">
-	
-	<row name="Offset">
-		<field type="double" default="0.0" id="kXoffset"/>
-		<field type="double" default="0.0" id="kYoffset"/>
-	</row>
+    
+    <row name="Offset">
+        <field type="double" default="0.0" id="kXoffset"/>
+        <field type="double" default="0.0" id="kYoffset"/>
+    </row>
 
-	<row name="Radius">
-		<field type="double" default="0.5" id="kRadius"/>
-	</row>
+    <row name="Radius">
+        <field type="double" default="0.5" id="kRadius"/>
+    </row>
 
-	<row name="Displacement">
-		<field type="double" default="0.5" id="kDisp"/>
-	</row>
+    <row name="Displacement">
+        <field type="double" default="0.5" id="kDisp"/>
+    </row>
 
-	<row name="Speed">
-		<field type="double" default="0.0" id="kSpeed"/>
-	</row>
+    <row name="Speed">
+        <field type="double" default="0.0" id="kSpeed"/>
+    </row>
 
-	<shader vert="../COMMON/common.vert" frag="kFrostedGlass.frag"/>
+    <shader vert="../COMMON/common.vert" frag="kFrostedGlass.frag"/>
 </effect>

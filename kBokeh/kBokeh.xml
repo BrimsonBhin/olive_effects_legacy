@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kBokeh" category="Community">
-    
+
 
     <row name="Contrast">
         <field type="double" min="0.0" default="250.0" id="kContrastAmount"/>

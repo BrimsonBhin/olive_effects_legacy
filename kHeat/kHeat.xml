@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kHeat" category="Community">
-    
+
     <row name="X Detail">
         <field type="double" min="0.0" default="72.0" id="kXdetail"/>
         <field type="double" min="0.0" default="72.0" id="kYdetail"/>

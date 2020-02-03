@@ -1,4 +1,4 @@
-/***  
+/***
     Port of https://www.shadertoy.com/view/lsXGWn
     Adaption and Implementation by CGVIRUS for Olive-Editor Community
 ***/
@@ -26,9 +26,8 @@ void main()
     float t = time;
     vec2 mid = vec2(0.5,0.5);
     vec2 focus = abs(sin(t*kScale))/resolution.xy;
-    float d1 = distance(focus+sin(t * 0.25) * 0.5,uv);	
-    float d2 = distance(focus
-                        +cos(t),uv);	
+    float d1 = distance(focus+sin(t * 0.25) * 0.5, uv);
+    float d2 = distance(focus+cos(t), uv);
     vec4 rgb = (getDistortedTexture(tex, getDistortion(uv, d1, t)) + getDistortedTexture(tex, getDistortion(uv, -d2, t))) * 0.5;
     rgb.r /= d2;
     rgb.g += -0.5 + d1;

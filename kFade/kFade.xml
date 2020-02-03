@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="kFade" category="Community">
+
+    <row name="Opacity">
+        <field type="double" min="0.0" default="10.0" max="100.0" id="kValue"/>
+    </row>
+
+    <row name="Smooth">
+        <field type="double" min="0.1" default="2.0" id="kAlphaRange"/>
+    </row>
+
+    <shader vert="../COMMON/common.vert" frag="kFade.frag"/>
+</effect>

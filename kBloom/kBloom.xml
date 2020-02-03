@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kBloom" category="Community">
-    
+
     <row name="Bloom_Threshold">
         <field type="double" min="0.0" default="10.0" max="100.0" id="kBloomThreshold"/>
     </row>

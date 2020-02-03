@@ -8,7 +8,6 @@ uniform float time;
 
 uniform float kValue;
 
-// hardness of alpha clipping
 // lower = harder edge
 // higher = softer edge
 uniform float kAlphaRange;

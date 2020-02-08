@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<effect name="kEdgeGlow" category="Community">
+<effect name="kEdgeGlow" category="kShaders">
 
     <row name="Color">
         <field type="double" min="0.1" default="1.0" id="kBlueAmount"/>

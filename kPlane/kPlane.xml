@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="kPlane" category="kShaders">
+
+    <row name="Offset">
+        <field type="double" min="0.0" default="0.0" id="kOffsetX"/>
+        <field type="double" min="0.0" default="0.0" id="kOffsetY"/>
+    </row>
+
+    <row name="Scale">
+        <field type="double" min="0.0" default="50.0" id="kScale"/>
+    </row>
+
+    <row name="Rotate">
+        <field type="double" default="0.0" id="kRotateX"/>
+        <field type="double" default="0.0" id="kRotateY"/>
+        <field type="double" default="0.0" id="kRotateZ"/>
+    </row>
+
+    <shader vert="../COMMON/common.vert" frag="kPlane.frag"/>
+</effect>

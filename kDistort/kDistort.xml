@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<effect name="kDistort" category="Community">
+<effect name="kDistort" category="kShaders">
 
     <row name="Scale">
         <field type="double" default="1.0" id="kScale"/>

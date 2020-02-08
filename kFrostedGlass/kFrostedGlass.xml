@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<effect name="kFrostedGlass" category="Community">
+<effect name="kFrostedGlass" category="kShaders">
 
     <row name="Offset">
         <field type="double" default="0.0" id="kXoffset"/>

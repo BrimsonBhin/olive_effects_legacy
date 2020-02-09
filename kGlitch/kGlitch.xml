@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="kGlitch" category="kShaders">
+
+    <row name="Speed">
+        <field type="double" default="10.0" id="kSpeed"/>
+    </row>
+
+    <row name="Displacement">
+        <field type="double" default="25.0" id="kDisp"/>
+    </row>
+
+    <shader vert="../COMMON/common.vert" frag="kGlitch.frag"/>
+</effect>

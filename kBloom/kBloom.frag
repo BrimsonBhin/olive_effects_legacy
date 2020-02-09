@@ -1,67 +1,87 @@
 /*
-Olive port of https://www.shadertoy.com/view/4dcXWs
-*/
+A conglomerate, amateurish mess.
 
-#version 330
-#define M_PI 3.1415926535897932384626433832795
+Horizontal Blur from https://www.shadertoy.com/view/llGSz3
+HDR function and blending from https://www.shadertoy.com/view/4dcXWs
+ACES Tonemap from https://www.shadertoy.com/view/wl2SDt
+
+*/
 
 uniform sampler2D image;
 uniform vec2 resolution;
 
-/*
-[Bloom Settings]
-BLOOM_THRESHOLD - how bright a pixel needs to be to become blurred
-BLOOM_INTENSITY - how bright the bloom effect is
-BLUR_SIZE - the radius of the bloom
-*/
+uniform float kThreshold;
+uniform float kIntensity;
 
-uniform float kBloomThreshold;
-uniform float kBloomIntensity;
-uniform float kBlurSize;
+uniform float kKernel;
+const float kWeight = 1.0;
 
-#define kBlurIterations 16
-#define kBlurSubdivisions 32
+const mat3 ACESInputMat = mat3(
+    0.59719, 0.35458, 0.04823,
+    0.07600, 0.90834, 0.01566,
+    0.02840, 0.13383, 0.83777
+);
+
+// ODT_SAT => XYZ => D60_2_D65 => sRGB
+const mat3 ACESOutputMat = mat3(
+     1.60475, -0.53108, -0.07367,
+    -0.10208,  1.10813, -0.00605,
+    -0.00327, -0.07276,  1.07602
+);
+
+vec3 RRTAndODTFit(vec3 v)
+{
+    vec3 a = v * (v + 0.0245786) - 0.000090537;
+    vec3 b = v * (0.983729 * v + 0.4329510) + 0.238081;
+    return a / b;
+}
+
+vec3 ACESFitted(vec3 color)
+{
+    color = color * ACESInputMat;
+    // Apply RRT and ODT
+    color = RRTAndODTFit(color);
+    color = color * ACESOutputMat;
+    // Clamp to [0, 1]
+    color = clamp(color, 0.0, 1.0);
+    return color;
+}
 
 vec3 getHDR(vec3 tex) {
-    return max((tex - (kBloomThreshold/10.0)) * (kBloomIntensity/100.0), 0.0);
-}
-
-vec3 ACESFilm(vec3 x)
-{
-    float a = 2.51;
-    float b = 0.03;
-    float c = 2.43;
-    float d = 0.59;
-    float e = 0.14;
-    return (x*(a*x+b))/(x*(c*x+d)+e);
-}
-
-vec3 gaussian(sampler2D sampler, vec2 uv) {
-    vec3 sum = vec3(0.0);
-
-    for(int i = 1; i <= kBlurIterations; i++) {
-        float angle = 360.0 / float(kBlurSubdivisions);
-        for(int j = 0; j < kBlurSubdivisions; j++) {
-            float dist = (kBlurSize/100.0) * (float(i+1) / float(kBlurIterations));
-            float s    = sin(angle * float(j));
-            float c	   = cos(angle * float(j));
-
-            sum += getHDR(texture2D(sampler, uv + vec2(c,s)*dist).xyz);
-        }
-    }
-    sum /= float(kBlurIterations * kBlurSubdivisions);
-    return sum * (kBloomIntensity/100.0);
+    return max((tex - (kThreshold/100.0)) * (kIntensity), 0.0);
 }
 
 vec3 blend(vec3 a, vec3 b) {
     return 1.0 - (1.0 - a)*(1.0 - b);
 }
 
-void main(void)
+vec3 BlurColor(in sampler2D tex, in vec2 fragCoord)
 {
-	vec2 uv = gl_FragCoord.xy / resolution.xy;
-	vec4 tx = texture2D(image, uv);
+	vec2 uv = fragCoord.xy / resolution.xy;
+	vec3 sum = vec3(0);
+    float pixelSizeX = 1.0 / resolution.x; 
+    float pixelSizeY = 1.0 / resolution.y;
+    
+    // Horizontal Blur
+    vec3 accumulation = vec3(0);
+    vec3 weightsum = vec3(0);
+    for (float i = -kKernel; i <= kKernel; i++){
+        accumulation += texture2D(tex, uv + vec2(i * pixelSizeX, 0.0)).xyz * kWeight;
+        weightsum += kWeight;
+    }
+    
+    sum = accumulation / weightsum;
+    
+    return getHDR(ACESFitted(sum));
+}
 
-    gl_FragColor.xyz = gaussian(image, uv);
-    gl_FragColor.xyz = blend(tx.xyz, ACESFilm(gl_FragColor.xyz));
+
+void main()
+{
+    vec2 fragCoord = gl_FragCoord.xy;
+	vec2 uv = fragCoord.xy / resolution.xy;
+	vec4 tx = texture2D(image, uv);
+    
+    gl_FragColor.xyz = BlurColor(image, fragCoord);   
+    gl_FragColor.xyz = blend(tx.xyz, gl_FragColor.xyz);
 }

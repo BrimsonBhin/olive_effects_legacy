@@ -39,17 +39,16 @@ vec3 BlurColor(in sampler2D tex, in vec2 fragCoord)
 	vec2 uv = fragCoord.xy / resolution.xy;
 	vec3 sum = vec3(0);
     float pixelSizeX = 1.0 / resolution.x;
-    float pixelSizeY = 1.0 / resolution.y;
 
     // Horizontal Blur
     vec3 accumulation = vec3(0);
     vec3 weightsum = vec3(0);
     for (float i = -kKernel; i <= kKernel; i++){
-        accumulation += texture2D(tex, uv + vec2(i * pixelSizeX, 0.0)).xyz * kWeight;
+        accumulation += getHDR(texture2D(tex, uv + vec2(i * pixelSizeX, 0.0)).xyz * kWeight);
         weightsum += kWeight;
     }
     sum = accumulation / weightsum;
-    return getHDR(sum);
+    return (sum);
 }
 
 void main()

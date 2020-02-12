@@ -1,20 +1,21 @@
 /*
+
 A conglomerate, amateurish mess.
 
-Horizontal Blur from https://www.shadertoy.com/view/llGSz3
+Horizontal Blur from Olive's BoxBlur shader
 HDR function and blending from https://www.shadertoy.com/view/4dcXWs
 ACES Tonemap from https://www.shadertoy.com/view/wl2SDt
 
 */
 
-uniform sampler2D image;
-uniform vec2 resolution;
+#version 330
 
+uniform vec2 resolution;
+uniform sampler2D image;
+
+uniform float kRadius;
 uniform float kThreshold;
 uniform float kIntensity;
-
-uniform float kKernel;
-const float kWeight = 1.0;
 
 vec3 ACESFilm(vec3 x)
 {
@@ -26,37 +27,42 @@ vec3 ACESFilm(vec3 x)
     return (x*(a*x+b))/(x*(c*x+d)+e);
 }
 
-vec3 getHDR(vec3 tex) {
+// Get specific colors
+vec4 getHDR(vec4 tex) {
     return max((tex - (kThreshold/10.0)) * (kIntensity/10.0), 0.0);
+}
+
+// Function replaces the texture2D() with a vec4 with specific colors
+vec3 tHDR(in sampler2D tex, in vec2 fragCoord){
+    vec3 t = getHDR(texture2D(tex, fragCoord.xy)).xyz;
+    return t;
 }
 
 vec3 blend(vec3 a, vec3 b) {
     return 1.0 - (1.0 - a) * (1.0 - b);
 }
 
-vec3 BlurColor(in sampler2D tex, in vec2 fragCoord)
-{
-	vec2 uv = fragCoord.xy / resolution.xy;
-	vec3 sum = vec3(0);
-    float pixelSizeX = 1.0 / resolution.x;
+vec3 blur(in sampler2D tex, in vec2 fragCoord) {
+	float rad = ceil(kRadius);
+	float divider = 1.0 / rad;
 
-    // Horizontal Blur
-    vec3 accumulation = vec3(0);
-    vec3 weightsum = vec3(0);
-    for (float i = -kKernel; i <= kKernel; i++){
-        accumulation += getHDR(texture2D(tex, uv + vec2(i * pixelSizeX, 0.0)).xyz * kWeight);
-        weightsum += kWeight;
+	vec4 color = vec4(0.0);
+
+    for (float x=-rad+0.5;x<=rad;x+=2.0) {
+        color += vec4(tHDR(tex, (vec2(fragCoord.x+x, fragCoord.y))/resolution.xy)*(divider), 0.0);
+        color += vec4(tHDR(tex, (vec2(fragCoord.x, fragCoord.y+x))/resolution.xy)*(divider), 0.0);
     }
-    sum = accumulation / weightsum;
-    return (sum);
+
+    return vec3(color/2.0);
 }
 
-void main()
+void main(void)
 {
     vec2 fragCoord = gl_FragCoord.xy;
 	vec2 uv = fragCoord.xy / resolution.xy;
 	vec4 tx = texture2D(image, uv);
 
-    gl_FragColor.xyz = BlurColor(image, fragCoord.xy);
+    gl_FragColor.xyz = blur(image, fragCoord.xy);
     gl_FragColor.xyz = blend(tx.xyz, ACESFilm(gl_FragColor.xyz));
+    gl_FragColor = vec4(gl_FragColor.xyz, 1.0);
 }

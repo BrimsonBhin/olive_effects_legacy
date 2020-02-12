@@ -6,11 +6,11 @@
     </row>
 
     <row name="Intensity">
-        <field type="double" min="0.0" default="32.0" id="kIntensity"/>
+        <field type="double" min="0.0" default="64.0" id="kIntensity"/>
     </row>
 
     <row name="Blur Size">
-        <field type="double" min="0.0" default="32.0" id="kKernel"/>
+        <field type="double" min="0.0" default="32.0" id="kRadius"/>
     </row>
 
     <shader vert="../COMMON/common.vert" frag="kBloom.frag"/>

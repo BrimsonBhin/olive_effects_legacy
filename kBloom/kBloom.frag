@@ -57,5 +57,5 @@ void main()
 	vec2 uv = gl_FragCoord.xy / resolution.xy;
 	vec4 tx = texture2D(image, uv);
 
-    gl_FragColor = vec4(blend(tx.xyz, ACESFilm(blurH(image, vTexCoord))), 1.0);
+    gl_FragColor = vec4(blend(tx.xyz, ACESFilm(blurH(image, uv))), 1.0);
 }

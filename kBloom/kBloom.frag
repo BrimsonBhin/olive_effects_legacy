@@ -17,12 +17,6 @@ vec4 getColor(vec4 tex) {
     return vec4(pow(Color.xyz,vec3(1.0/2.2)), 1.0);
 }
 
-vec2 randomDot(vec2 p){
-    p = fract(p * vec2(443.897, 441.423));
-    p += dot(p, p.yx+19.19);
-    return fract((p.xx+p.yx)*p.xy);
-}
-
 float random(vec3 scale, float seed){
     return fract(sin(dot(gl_FragCoord.xyz+seed,scale))*43758.5453+seed);
 }

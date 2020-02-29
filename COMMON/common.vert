@@ -1,5 +1,3 @@
-#version 330
-
 varying vec2 vTexCoord;
 
 void main() {

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<effect name="kBloom_exp" category="kShaders">
+<effect name="kBloom" category="kShaders">
 
     <row name="Threshold">
-        <field type="double" min="0.0" default="8.0" id="kThreshold"/>
+        <field type="double" min="0.0" default="4.0" id="kThreshold"/>
     </row>
 
     <row name="Intensity">
-        <field type="double" min="0.01" default="4.0" id="kIntensity"/>
+        <field type="double" min="0.0" default="2.0" id="kIntensity"/>
     </row>
 
     <row name="Blur Size">
-        <field type="double" min="0.0" default="16.0" id="kRadius"/>
+        <field type="double" min="1.0" default="4.0" id="kRadius"/>
     </row>
 
     <shader vert="../COMMON/common.vert" frag="kBloom.frag"/>

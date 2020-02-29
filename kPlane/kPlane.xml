@@ -2,12 +2,12 @@
 <effect name="kPlane" category="kShaders">
 
     <row name="Offset">
-        <field type="double" min="0.0" default="0.0" id="kOffsetX"/>
-        <field type="double" min="0.0" default="0.0" id="kOffsetY"/>
+        <field type="double" default="0.0" id="kOffsetX"/>
+        <field type="double" default="0.0" id="kOffsetY"/>
     </row>
 
     <row name="Scale">
-        <field type="double" min="0.0" default="50.0" id="kScale"/>
+        <field type="double" default="50.0" id="kScale"/>
     </row>
 
     <row name="Rotate">

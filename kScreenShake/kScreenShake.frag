@@ -23,9 +23,9 @@ vec3 random3(vec3 c) {
     float j = 4096.0*sin(dot(c,vec3(17.0, 59.4, 15.0)));
     vec3 r;
     r.z = fract(512.0*j);
-    j *= .125;
+    j *= 0.125;
     r.x = fract(512.0*j);
-    j *= .125;
+    j *= 0.125;
     r.y = fract(512.0*j);
     return r;
 }
@@ -53,10 +53,10 @@ float simplex3d(vec3 p) {
 
      w = max(0.6 - w, 0.0);
 
-     d.x = dot(random3(s)-.5, x);
-     d.y = dot(random3(s + i1)-.5, x1);
-     d.z = dot(random3(s + i2)-.5, x2);
-     d.w = dot(random3(s + 1.0)-.5, x3);
+     d.x = dot(random3(s)-0.5, x);
+     d.y = dot(random3(s + i1)-0.5, x1);
+     d.z = dot(random3(s + i2)-0.5, x2);
+     d.w = dot(random3(s + 1.0)-0.5, x3);
 
      w *= w;
      w *= w;
@@ -68,13 +68,13 @@ float simplex3d(vec3 p) {
 void main()
 {
     vec2 uv = gl_FragCoord.xy / resolution.xy;
-    uv = uv*2.-1.;
+    uv = uv*2.0-1.0;
 
-    vec3 p3 = vec3(0,0, (time + 1.0)*(kSpeed*0.01))*8.0+8.0;
+    vec3 p3 = vec3(0,0,(time + 1.0)*(kSpeed*0.01));
     vec3 noise = vec3(simplex3d(p3),simplex3d(p3+10.),simplex3d(p3+20.0));
 
     uv = rotate2D(uv, noise.z*kRotationAmount*0.1);
-    uv = (uv+1.)/2.;
+    uv = (uv+1.0)/2.0;
 
-    gl_FragColor = vec4(texture2D(image, uv+noise.xy*(kAmount*0.1)).rgb, 1.0);
+    gl_FragColor = texture2D(image, uv+noise.xy*(kAmount*0.1));
 }

@@ -42,14 +42,10 @@ float blurRadius(
 	sampler2D depthMap)
 {
     vec4 currentPixel = texture2D(depthMap, uv);
-
     float S2 = currentPixel.r * far;
-
     //https://en.wikipedia.org/wiki/Circle_of_confusion
     float coc = A * ( abs(S2 - S1) / S2 ) * ( f / (S1 - f) );
-
     float sensorHeight = 0.024; // 24mm
-
     float percentOfSensor = coc / sensorHeight;
 
     // blur factor
@@ -57,7 +53,7 @@ float blurRadius(
 }
 ///////////
 
-vec3 bokeh(sampler2D tex, vec2 uv, float kRadiusus) {
+vec4 bokeh(sampler2D tex, vec2 uv, float kRadiusus) {
 	vec3 num, // numerator                       acc = areas concentric circles? ( ͡° ͜ʖ ͡°)
 		 weight;
 
@@ -71,11 +67,8 @@ vec3 bokeh(sampler2D tex, vec2 uv, float kRadiusus) {
 	    horizontalAngle = horizontalAngle * Rotation;
 
         vec2 offset = (rec - 1.0) * horizontalAngle;
-
         vec2 aspect = vec2(resolution.y/resolution.x, 1.0);
-
         vec2 sampleUV = uv + aspect * offset;
-
         vec3 col = texture2D(tex, sampleUV).rgb;
 
         // increase contrast and Smooth
@@ -84,11 +77,11 @@ vec3 bokeh(sampler2D tex, vec2 uv, float kRadiusus) {
 		num += col * bokeh;
 		weight += bokeh;
 	}
-	return num / weight;
+	return vec4(num/weight, gl_FragColor.a);
 }
 
 void main() {
     vec2 uv = gl_FragCoord.xy / resolution.xy;
-    float rad = kRadius/10.;
-	gl_FragColor = vec4(bokeh(tex, uv, rad), 1.0);
+    float rad = kRadius/10.0;
+	gl_FragColor = bokeh(tex, uv, rad);
 }

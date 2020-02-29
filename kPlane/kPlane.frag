@@ -7,9 +7,12 @@ Olive port of https://www.shadertoy.com/view/4tBBzG
 uniform vec2 resolution;
 uniform sampler2D image;
 
+// The offsets are not akin to the pixel or percentage. Use with caution.
 uniform float kOffsetX;
 uniform float kOffsetY;
 uniform float kScale;
+
+// The values are not akin to 0-360 degrees. Use with caution.
 uniform float kRotateX;
 uniform float kRotateY;
 uniform float kRotateZ;
@@ -47,25 +50,26 @@ vec2 raytraceTexturedQuad(in vec3 rayOrigin, in vec3 rayDirection, in vec3 quadC
 }
 
 void main() {
-    //Screen UV goes from 0 - 1 along each axis
+
+    // Screen UV goes from 0 - 1 along each axis
     vec2 screenUV = gl_FragCoord.xy/resolution.xy;
     vec2 p = (2.0 * screenUV) - 1.0;
     float screenAspect = resolution.x/resolution.y;
     p.x *= screenAspect;
 
-    //Normalized Ray Dir
+    // Normalized Ray Dir
     vec3 dir = vec3(p.x, p.y, 1.0);
     dir /= length(dir);
 
-    //Define the plane
-    vec3 planePosition = vec3(kOffsetX/100.0, kOffsetY/100.0, kScale/100.0);
+    // Define the plane
+    vec3 planePosition = vec3(kOffsetX/180.0, kOffsetY/320.0, kScale/100.0);
     vec3 planeRotation = vec3(kRotateX/100.0, kRotateY/100.0, kRotateZ/100.0);
     vec2 planeDimension = vec2(screenAspect, 1.0);
 
     vec2 uv = raytraceTexturedQuad(vec3(0), dir, planePosition, planeRotation, planeDimension);
 
-    //If we hit the rectangle, sample the texture
+    // If we hit the rectangle, sample the texture
     if(abs(uv.x - 0.5) < 0.5 && abs(uv.y - 0.5) < 0.5) {
-      gl_FragColor = vec4(texture2D(image, uv).xyz, 1.0);
+      gl_FragColor = texture2D(image, uv);
     }
 }

@@ -1,4 +1,3 @@
-#version 330
 
 uniform sampler2D tex;
 varying vec2 vTexCoord;

@@ -182,7 +182,5 @@ void main()
 
     uv += 0.01 * Perlin3D(vec3((kXdetail * 10.0) * uv.x, kSpeed * time, (kYdetail * 10.0) * uv.y) + skew);
 
-    vec3 bg = texture2D(image, uv).rgb;
-
-	gl_FragColor = vec4(vec3(bg), 1.0);
+    gl_FragColor= texture2D(image, uv);
 }

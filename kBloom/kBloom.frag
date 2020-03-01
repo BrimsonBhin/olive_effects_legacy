@@ -5,15 +5,13 @@ Blend: https://github.com/jamieowen/glsl-blend
 Tonemap: https://github.com/dmnsgn/glsl-tone-map
 */
 
-uniform vec2 resolution;
 uniform sampler2D image;
+uniform vec2 resolution;
 varying vec2 vTexCoord;
 
 uniform float kThreshold;
 uniform float kIntensity;
 uniform float kRadius;
-
-const vec2 renderScale = vec2(1.0);
 const float kKernel = 32.0;
 
 // Threshold Colours
@@ -36,7 +34,7 @@ vec4 gaussian(sampler2D tex, vec2 fragCoord) {
     vec4 color = vec4(0.0);
     float total = 0.0;
     float offset = random(vec3(12.9898,78.233,151.7182),0.0);
-    float amount = (log2(kRadius*renderScale.x))*0.01;
+    float amount = (log2(kRadius*vTexCoord.x))*0.01;
 
     for(float t=-kKernel; t<=kKernel; t++){
         float percent = (t+offset-0.5)/kKernel;

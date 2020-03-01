@@ -12,16 +12,16 @@ varying vec2 vTexCoord;
 uniform float kThreshold;
 uniform float kIntensity;
 uniform float kRadius;
+uniform float kOpacity;
 
 const vec2 renderScale = vec2(1.0);
 const float kKernel = 32.0;
 
 // Threshold Colours
 vec3 getColor(vec2 uv) {
-    vec3 tex = pow(texture2D(image, uv).rgb, vec3(2.2));
-    vec3 base_col = max((tex - (kThreshold/10.0)) * (kIntensity), 0.0);
+    vec3 gTex = pow(texture2D(image, uv).rgb, vec3(2.2));
+    vec3 base_col = max((gTex.rgb - (kThreshold/10.0)) * (kIntensity), 0.0);
 
-    // Smooth based on chit
     float lum = dot(base_col, vec3(0.2627, 0.6780, 0.0593));
     float weight = smoothstep(0.0, kIntensity, log2(lum));
 
@@ -50,18 +50,8 @@ vec4 gaussian(sampler2D tex, vec2 fragCoord) {
     }
 
     color = color/total;
-    color.rgb *= color.a;
+    color.rgb /= color.a;
     return color;
-}
-
-vec4 premult(vec4 b) {
-    b.rgb *= b.a;
-    return b;
-}
-
-vec4 ScreenBlend(vec4 a, vec4 b) {
-    vec4 get = max(a, premult(b));
-    return 1.0 - ((1.0 - a) * (1.0 - get));
 }
 
 vec4 Tonemap(vec4 x) {
@@ -70,7 +60,8 @@ vec4 Tonemap(vec4 x) {
 
 void main() {
     vec4 base = texture2D(image, vTexCoord);
-    vec4 blend = Tonemap(gaussian(image, vTexCoord));
-
-    gl_FragColor = ScreenBlend(base, blend);
+    vec4 blend = gaussian(image, vTexCoord);
+    vec4 ScreenBlend = 1.0 - (1.0 - base) * (1.0 - Tonemap(blend));
+    
+    gl_FragColor = mix(base, ScreenBlend, base.a);
 }

@@ -12,7 +12,6 @@ varying vec2 vTexCoord;
 uniform float kThreshold;
 uniform float kIntensity;
 uniform float kRadius;
-uniform float kOpacity;
 
 const vec2 renderScale = vec2(1.0);
 const float kKernel = 32.0;

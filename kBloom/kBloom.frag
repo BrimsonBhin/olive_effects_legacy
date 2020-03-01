@@ -30,7 +30,7 @@ float random(vec3 scale, float seed) {
     return fract(sin(dot(gl_FragCoord.xyz+seed,scale))*43758.5453+seed);
 }
 
-vec4 gaussian(sampler2D tex, vec2 fragCoord) {
+vec4 blur(sampler2D tex, vec2 fragCoord) {
     vec4 color = vec4(0.0);
     float total = 0.0;
     float offset = random(vec3(12.9898,78.233,151.7182),0.0);
@@ -57,7 +57,7 @@ vec4 Tonemap(vec4 x) {
 
 void main() {
     vec4 base = texture2D(image, vTexCoord);
-    vec4 blend = gaussian(image, vTexCoord);
+    vec4 blend = blur(image, vTexCoord);
     vec4 ScreenBlend = 1.0 - (1.0 - base) * (1.0 - Tonemap(blend));
     
     gl_FragColor = mix(base, ScreenBlend, base.a);

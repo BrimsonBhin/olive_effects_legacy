@@ -5,8 +5,8 @@
         <field type="double" min="0.0" default="4.0" id="kThreshold"/>
     </row>
 
-    <row name="Intensity">
-        <field type="double" min="0.0" default="2.0" id="kIntensity"/>
+    <row name="Saturation">
+        <field type="double" min="0.0" default="100.0" max="100.0" id="kSaturation"/>
     </row>
 
     <row name="Blur Size">

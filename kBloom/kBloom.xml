@@ -2,15 +2,11 @@
 <effect name="kBloom" category="kShaders">
 
     <row name="Threshold">
-        <field type="double" min="0.0" default="4.0" id="kThreshold"/>
-    </row>
-
-    <row name="Saturation">
-        <field type="double" min="0.0" default="100.0" max="100.0" id="kSaturation"/>
+        <field type="double" min="0.01" default="8.0" id="kThres"/>
     </row>
 
     <row name="Blur Size">
-        <field type="double" min="1.0" default="4.0" id="kRadius"/>
+        <field type="double" min="1.0" default="32.0" id="kRadius"/>
     </row>
 
     <shader vert="../COMMON/common.vert" frag="kBloom.frag"/>

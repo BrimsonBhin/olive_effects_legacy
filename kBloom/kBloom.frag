@@ -4,7 +4,6 @@ varying vec2 vTexCoord;
 
 uniform float kRadius;
 uniform float kThres;
-uniform float kInt;
 
 const float kKernel = 32.0;
 const vec2 renderScale = vec2(1.0);

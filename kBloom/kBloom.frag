@@ -4,6 +4,7 @@ varying vec2 vTexCoord;
 
 uniform float kRadius;
 uniform float kThres;
+uniform float kInt;
 
 const float kKernel = 32.0;
 const vec2 renderScale = vec2(1.0);
@@ -22,15 +23,15 @@ vec3 getColor(vec2 uv) {
 }
 
 // Blur from https://github.com/spite/Wagner
-float random(vec3 scale, float seed) {
-    return fract(sin(dot(gl_FragCoord.xyz+seed,scale))*43758.5453+seed);
+float nrand(vec2 n) {
+	return fract(sin(dot(n, vec2(12.9898, 78.233)))* 43758.5453);
 }
 
 vec4 blur(sampler2D tex, vec2 fragCoord) {
     vec4 color = vec4(0.0);
     float total = 0.0;
-    float offset = random(vec3(12.9898,78.233,151.7182),0.0);
-    float amount = (log2(kRadius*renderScale.x))*0.01;
+    float offset = nrand(0.01*gl_FragCoord.xy);
+    float amount = log2(kRadius*renderScale.x)*0.01;
 
     for(float t=-kKernel; t<=kKernel; t++) {
         float percent = (t+offset-0.5)/kKernel;
@@ -57,7 +58,5 @@ void main() {
     vec4 blend = blur(image, vTexCoord);
 
     // Blend: https://github.com/jamieowen/glsl-blend
-    vec4 ScreenBlend = 1.0 - (1.0 - base) * (1.0 - Tonemap(blend));
-
-    gl_FragColor = mix(base, ScreenBlend, base.a);
+    gl_FragColor = mix(base, 1.0 - (1.0 - base) * (1.0 - Tonemap(blend)), base.a);
 }

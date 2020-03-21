@@ -1,19 +1,15 @@
-/*
-Olive port of https://www.shadertoy.com/view/XlsGWf
-*/
+// Olive port of https://www.shadertoy.com/view/XlsGWf
 
 uniform sampler2D tex;
 uniform vec2 resolution;
-
+varying vec2 vTexCoord;
 uniform float kDegree;
 
 void main()
 {
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
+    vec2 uv = vTexCoord;
 
-    //Angle you want to rotate the texture to
-    //float rot = radians(45.0);
-
+    // Degree Angle
     float rot = radians(kDegree);
 
     uv-=0.5;

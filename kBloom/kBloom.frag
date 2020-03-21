@@ -25,7 +25,7 @@ vec4 sRGB_Linear(vec4 C_srgb) {
 
 vec3 getTexture(vec2 uv)
 {
-    return max(sRGB_Linear(texture2D(image, uv)).rgb - log2(kThres), 0.0);
+    return max(sRGB_Linear(texture2D(image, uv)).rgb - kThres, 0.0);
 }
 
 vec3 downScale(vec2 uv)

@@ -10,52 +10,51 @@ uniform float kRadius;
 
 float d;
 
+// http://chilliant.blogspot.com/2012/08/srgb-approximations-for-hlsl.html
+vec4 sRGB_Linear(vec4 C_srgb) {
+    return 0.012522878 * C_srgb +
+        0.682171111 * C_srgb * C_srgb +
+        0.305306011 * C_srgb * C_srgb * C_srgb;
+}
+
 float lookup(vec2 p, float dx, float dy)
 {
     vec2 uv = (p.xy + vec2(dx * d, dy * d)) / resolution.xy;
-    vec4 c = texture2D(image, uv.xy);
+    vec4 c = sRGB_Linear(texture2D(image, uv.xy));
 
     // return as luma
     return 0.2126*c.r + 0.7152*c.g + 0.0722*c.b;
 }
 
-vec3 ACESFilm(vec3 x)
-{
-    float a = 2.51;
-    float b = 0.03;
-    float c = 2.43;
-    float d = 0.59;
-    float e = 0.14;
-    return (x*(a*x+b))/(x*(c*x+d)+e);
-}
-
-vec3 blend(vec3 a, vec3 b) {
-    return 1.0 - (1.0 - a)*(1.0 - b);
+// https://github.com/dmnsgn/glsl-tone-map
+vec3 unreal(vec3 x) {
+  return x / (x + 0.155) * 1.019;
 }
 
 void main()
 {
-    vec4 s = texture2D(image, vTexCoord);
     d = kRadius; // kernel offset
+    vec4 s = texture2D(image, vTexCoord);
     vec2 p = gl_FragCoord.xy;
     const vec3 val = vec3(-1.0, 0.0, 1.0);
+    const vec2 val2 = vec2(-2.0, 2.0);
 
     // simple sobel edge detection
     float gx = 0.0;
     gx += val.x * lookup(p, val.x, val.x);
-    gx += -2.0 * lookup(p, val.x,  val.y);
-    gx += val.x * lookup(p, val.x,  val.z);
-    gx +=  val.z * lookup(p,  val.z, val.x);
-    gx +=  2.0 * lookup(p,  val.z,  val.y);
-    gx +=  val.z * lookup(p,  val.z,  val.z);
+    gx += val2.x * lookup(p, val.x, val.y);
+    gx += val.x * lookup(p, val.x, val.z);
+    gx += val.z * lookup(p, val.z, val.x);
+    gx += val2.y * lookup(p, val.z, val.y);
+    gx += val.z * lookup(p, val.z, val.z);
 
-    float gy = val.y;
+    float gy = 0.0;
     gy += val.x * lookup(p, val.x, val.x);
-    gy += -2.0 * lookup(p,  val.y, val.x);
-    gy += val.x * lookup(p,  val.z, val.x);
-    gy +=  val.z * lookup(p, val.x,  val.z);
-    gy +=  2.0 * lookup(p,  val.y,  val.z);
-    gy +=  val.z * lookup(p,  val.z,  val.z);
+    gy += val2.x * lookup(p, val.y, val.x);
+    gy += val.x * lookup(p, val.z, val.x);
+    gy += val.z * lookup(p, val.x, val.z);
+    gy += val2.y * lookup(p, val.y, val.z);
+    gy += val.z * lookup(p, val.z, val.z);
 
     // hack: use g^2 to conceal noise in the video
     float g = gx*gx + gy*gy;
@@ -64,7 +63,8 @@ void main()
     vec4 col = texture2D(image, p / resolution.xy);
     col = vec4(0.0, g, g2, 1.0);
 
-    vec3 color = blend(s.xyz, ACESFilm(col.xyz));
+    // Screen blend
+    vec3 color = 1.0 - (1.0 - s.xyz) * (1.0 - unreal(col.xyz));
 
-    gl_FragColor = vec4(color, gl_FragColor.a);
+    gl_FragColor = vec4(color, s.a);
 }

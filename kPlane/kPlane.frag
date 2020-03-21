@@ -1,11 +1,10 @@
-/*
-Olive port of https://www.shadertoy.com/view/4tBBzG
-*/
+// Olive port of https://www.shadertoy.com/view/4tBBzG
 
 #version 330
 
 uniform vec2 resolution;
 uniform sampler2D image;
+varying vec2 vTexCoord;
 
 // The offsets are not akin to the pixel or percentage. Use with caution.
 uniform float kOffsetX;
@@ -50,9 +49,8 @@ vec2 raytraceTexturedQuad(in vec3 rayOrigin, in vec3 rayDirection, in vec3 quadC
 }
 
 void main() {
-
     // Screen UV goes from 0 - 1 along each axis
-    vec2 screenUV = gl_FragCoord.xy/resolution.xy;
+    vec2 screenUV = vTexCoord;
     vec2 p = (2.0 * screenUV) - 1.0;
     float screenAspect = resolution.x/resolution.y;
     p.x *= screenAspect;
@@ -62,8 +60,8 @@ void main() {
     dir /= length(dir);
 
     // Define the plane
-    vec3 planePosition = vec3(kOffsetX/180.0, kOffsetY/320.0, kScale/100.0);
-    vec3 planeRotation = vec3(kRotateX/100.0, kRotateY/100.0, kRotateZ/100.0);
+    vec3 planePosition = vec3(kOffsetX * 0.01, kOffsetY * 0.01, kScale * 0.01);
+    vec3 planeRotation = vec3(kRotateX * 0.01, kRotateY * 0.01, kRotateZ * 0.01);
     vec2 planeDimension = vec2(screenAspect, 1.0);
 
     vec2 uv = raytraceTexturedQuad(vec3(0), dir, planePosition, planeRotation, planeDimension);

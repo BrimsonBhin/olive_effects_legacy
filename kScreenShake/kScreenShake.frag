@@ -29,6 +29,7 @@ vec3 random3(vec3 c) {
     r.y = fract(512.0*j);
     return r;
 }
+
 const float F3 =  0.3333333;
 const float G3 =  0.1666667;
 

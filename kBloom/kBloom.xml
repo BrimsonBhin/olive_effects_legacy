@@ -5,8 +5,20 @@
         <field type="double" min="0.01" default="8.0" id="kThres"/>
     </row>
 
+    <row name="Smooth">
+        <field type="double" min="1.0" default="64.0" id="kRange"/>
+    </row>
+
+    <row name="Intensity">
+        <field type="double" min="0.0" default="16.0" id="kCol"/>
+    </row>
+
+    <row name="kSat">
+        <field type="double" min="0.0" default="16.0" id="kSat"/>
+    </row>
+
     <row name="Blur Size">
-        <field type="double" min="1.0" default="32.0" id="kRadius"/>
+        <field type="double" min="1.0" default="16.0" id="kRadius"/>
     </row>
 
     <shader vert="../COMMON/common.vert" frag="kBloom.frag"/>

@@ -2,11 +2,12 @@
 Olive port of https://www.shadertoy.com/view/WdVSWd
 */
 
-uniform sampler2D tex;
+uniform sampler2D image;
 uniform vec2 resolution;
+varying vec2 vTexCoord;
 
 const float GoldenAngle = 2.39996323;
-const float Iterations = 256.0;
+const float Iterations = 64.0;
 const vec3 ContrastFactor = vec3(9.0);
 
 uniform float kContrastAmount;
@@ -24,11 +25,11 @@ const mat2 Rotation = mat2(
 
 ///////////
 /*
-	calculates circle of confusion diameter for each fixel from physical parameters and depth map
+    calculates circle of confusion diameter for each fixel from physical parameters and depth map
 
-	this function is unused
+    this function is unused
 
-	see http://ivizlab.sfu.ca/papers/cgf2012.pdf, page 10
+    see http://ivizlab.sfu.ca/papers/cgf2012.pdf, page 10
 */
 
 float blurRadius(
@@ -38,8 +39,8 @@ float blurRadius(
     float far, // far clipping plane
     float maxCoc, // mac coc diameter
 
-	vec2 uv,
-	sampler2D depthMap)
+    vec2 uv,
+    sampler2D depthMap)
 {
     vec4 currentPixel = texture2D(depthMap, uv);
     float S2 = currentPixel.r * far;
@@ -54,17 +55,17 @@ float blurRadius(
 ///////////
 
 vec4 bokeh(sampler2D tex, vec2 uv, float kRadiusus) {
-	vec3 num, // numerator                       acc = areas concentric circles? ( ͡° ͜ʖ ͡°)
-		 weight;
+    vec3 num, // numerator acc = areas concentric circles? ( ͡° ͜ʖ ͡°)
+         weight;
 
     float rec = 1.0; // reciprocal
 
-    vec2 horizontalAngle = vec2(0.0, kRadiusus * 0.01 / sqrt(Iterations));
+    vec2 horizontalAngle = vec2(0.0, (kRadiusus * 0.01) / sqrt(Iterations));
 
-	for (float i; i < Iterations; i++) {
+    for (float i; i < Iterations; i++) {
         rec += 1.0 / rec;
 
-	    horizontalAngle = horizontalAngle * Rotation;
+        horizontalAngle = horizontalAngle * Rotation;
 
         vec2 offset = (rec - 1.0) * horizontalAngle;
         vec2 aspect = vec2(resolution.y/resolution.x, 1.0);
@@ -72,16 +73,16 @@ vec4 bokeh(sampler2D tex, vec2 uv, float kRadiusus) {
         vec3 col = texture2D(tex, sampleUV).rgb;
 
         // increase contrast and Smooth
-		vec3 bokeh = kSmooth + pow(col, ContrastFactor) * kContrastAmount;
+        vec3 bokeh = kSmooth + pow(col, ContrastFactor) * kContrastAmount;
 
-		num += col * bokeh;
-		weight += bokeh;
-	}
-	return vec4(num/weight, gl_FragColor.a);
+        num += col * bokeh;
+        weight += bokeh;
+    }
+    return vec4(num/weight, gl_FragColor.a);
 }
 
 void main() {
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
-    float rad = kRadius/10.0;
-	gl_FragColor = bokeh(tex, uv, rad);
+    float rad = kRadius * 0.01;
+    gl_FragColor.rgb = bokeh(image, vTexCoord, rad).rgb;
+    gl_FragColor.a = texture2D(image, vTexCoord).a;
 }

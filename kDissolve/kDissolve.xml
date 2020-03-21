@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<effect name="kDissolve" category="kShaders">
-
-    <row name="Opacity">
-        <field type="double" min="0.0" default="100.0" max="100.0" id="kValue"/>
-    </row>
-
-    <shader vert="../COMMON/common.vert" frag="kDissolve.frag"/>
-</effect>

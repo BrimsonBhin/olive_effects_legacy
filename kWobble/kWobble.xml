@@ -9,8 +9,8 @@
         <field type="double" min="0.0" default="20.0" id="kSize"/>
     </row>
 
-    <row name="Strengh">
-        <field type="double" min="0.0" default="1.5" id="kStrengh"/>
+    <row name="Strength">
+        <field type="double" min="0.0" default="1.5" id="kStrength"/>
     </row>
 
     <shader vert="../COMMON/common.vert" frag="kWobble.frag"/>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="kInstaGrade" category="kShaders">
+
+    <row name="m_sat">
+        <field type="double" min="-5.0" default="1.0" max="5.0" id="m_sat"/>
+    </row>
+
+    <row name="m_con">
+        <field type="double" min="0.0" default="1.0" max="10.0" id="m_con"/>
+    </row>
+
+    <row name="m_gam">
+        <field type="double" min="0.001" default="1.0" max="10.0" id="m_gam"/>
+    </row>
+
+    <row name="blend">
+        <field type="double" min="0.0" default="1.0" max="10.0" id="blend"/>
+    </row>
+
+    <row name="m_slope_rgb">
+        <field type="double" min="-1000.0" default="1.0" max="1000.0" id="m_slope_r"/>
+        <field type="double" min="-1000.0" default="1.0" max="1000.0" id="m_slope_g"/>
+        <field type="double" min="-1000.0" default="1.0" max="1000.0" id="m_slope_b"/>
+    </row>
+
+    <row name="m_offset_rgb">
+        <field type="double" min="-1000.0" default="0.0" max="1000.0" id="m_offset_r"/>
+        <field type="double" min="-1000.0" default="0.0" max="1000.0" id="m_offset_g"/>
+        <field type="double" min="-1000.0" default="0.0" max="1000.0" id="m_offset_b"/>
+    </row>
+
+    <row name="m_power_rgb">
+        <field type="double" min="-1000.0" default="1.0" max="1000.0" id="m_power_r"/>
+        <field type="double" min="-1000.0" default="1.0" max="1000.0" id="m_power_g"/>
+        <field type="double" min="-1000.0" default="1.0" max="1000.0" id="m_power_b"/>
+    </row>
+
+    <shader vert="../COMMON/common.vert" frag="kInstaGrade.frag"/>
+</effect>

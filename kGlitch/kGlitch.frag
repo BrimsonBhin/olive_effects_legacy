@@ -8,12 +8,12 @@
 //               https://github.com/stegu/webgl-noise
 
 uniform sampler2D image;
-uniform vec2 resolution;
+varying vec2 vTexCoord;
 uniform float time;
+
 uniform float kSpeed;
 uniform float kDisp;
 
-varying vec2 vTexCoord;
 
 vec3 mod289(vec3 x) {
 return x - floor(x * (1.0 / 289.0)) * 289.0;

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="kWobble" category="kShaders">
+
+    <row name="Speed">
+        <field type="double" min="0.0" default="10.0" id="kSpeed"/>
+    </row>
+
+    <row name="Size">
+        <field type="double" min="0.0" default="20.0" id="kSize"/>
+    </row>
+
+    <row name="Strengh">
+        <field type="double" min="0.0" default="1.5" id="kStrengh"/>
+    </row>
+
+    <shader vert="../COMMON/common.vert" frag="kWobble.frag"/>
+</effect>

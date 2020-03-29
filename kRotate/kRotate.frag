@@ -1,7 +1,6 @@
 // Olive port of https://www.shadertoy.com/view/XlsGWf
 
 uniform sampler2D tex;
-uniform vec2 resolution;
 varying vec2 vTexCoord;
 uniform float kDegree;
 

@@ -2,7 +2,6 @@
 
 #version 330
 
-uniform vec2 resolution;
 uniform sampler2D image;
 varying vec2 vTexCoord;
 
@@ -52,7 +51,7 @@ void main() {
     // Screen UV goes from 0 - 1 along each axis
     vec2 screenUV = vTexCoord;
     vec2 p = (2.0 * screenUV) - 1.0;
-    float screenAspect = resolution.x/resolution.y;
+    float screenAspect = vTexCoord.x/vTexCoord.y;
     p.x *= screenAspect;
 
     // Normalized Ray Dir

@@ -64,7 +64,8 @@ void main()
     col = vec4(0.0, g, g2, 1.0);
 
     // Screen blend
-    vec3 color = 1.0 - (1.0 - s.xyz) * (1.0 - unreal(col.xyz));
-
+    vec3 blend = unreal(col.rgb);
+    vec3 color = s.rgb + blend - (s.rgb * blend);
+    
     gl_FragColor = vec4(color, s.a);
 }

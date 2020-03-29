@@ -1,9 +1,7 @@
 // Olive port of https://www.shadertoy.com/view/3tlXR8
 
 uniform sampler2D image;
-uniform vec2 resolution;
 uniform float kValue;
-
 varying vec2 vTexCoord;
 
 // hardness of alpha clipping

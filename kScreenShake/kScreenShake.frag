@@ -6,8 +6,9 @@ Olive port of https://www.shadertoy.com/view/wsBXWW
 #define M_PI 3.1415926535897932384626433832795
 
 uniform sampler2D image;
-uniform vec2 resolution;
 uniform float time;
+
+varying vec2 vTexCoord;
 
 uniform float kAmount;
 uniform float kRotationAmount;
@@ -68,11 +69,12 @@ float simplex3d(vec3 p) {
 
 void main()
 {
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
+    float time = time + 1.0;
+    vec2 uv = vTexCoord;
     uv = uv*2.0-1.0;
 
-    vec3 p3 = vec3(0,0,(time + 1.0)*(kSpeed*0.01));
-    vec3 noise = vec3(simplex3d(p3),simplex3d(p3+10.),simplex3d(p3+20.0));
+    vec3 p3 = vec3(0, 0, (time)*(kSpeed*0.01));
+    vec3 noise = vec3(simplex3d(p3),simplex3d(p3+(uv.x * 0.02)),simplex3d(p3+(uv.x * 0.01)));
 
     uv = rotate2D(uv, noise.z*kRotationAmount*0.1);
     uv = (uv+1.0)/2.0;

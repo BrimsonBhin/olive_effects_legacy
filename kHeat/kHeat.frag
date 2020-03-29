@@ -5,8 +5,8 @@ Olive port of https://www.shadertoy.com/view/ll3fDB
 #version 330
 
 uniform sampler2D image;
-uniform vec2 resolution;
 uniform float time;
+varying vec2 vTexCoord;
 
 uniform float kXdetail;
 uniform float kYdetail;
@@ -174,7 +174,7 @@ void main()
     float time_scale = 0.1;
     float time = time * time_scale;
 
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
+    vec2 uv = vTexCoord.xy;
 
     vec3 skew = hash33(vec3(uv.x, 8.0 * time, uv.y)) * 0.1;
 

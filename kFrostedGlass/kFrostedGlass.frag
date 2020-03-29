@@ -9,7 +9,7 @@ Original: http://coding-experiments.blogspot.com.au/2010/06/frosted-glass.html
 #version 330
 
 uniform sampler2D image;
-uniform vec2 resolution;
+varying vec2 vTexCoord;
 uniform float time;
 
 uniform float kXoffset;
@@ -30,7 +30,7 @@ float rand(vec2 uv) {
 
 void main(void)
 {
-	vec2 uv = gl_FragCoord.xy / resolution.xy;
+	vec2 uv = vTexCoord;
 	vec2 rnd = vec2(rand(uv), rand(uv));
     
     uv += rnd * (kDisp * 0.01);

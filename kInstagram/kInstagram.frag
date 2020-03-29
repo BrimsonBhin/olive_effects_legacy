@@ -1,7 +1,6 @@
 // From https://github.com/NatronGitHub/natron-plugins
 
 uniform sampler2D image;
-uniform vec2 resolution;
 varying vec2 vTexCoord;
 uniform int look; // Look : (look), min=0, max=15
 uniform bool f_con;

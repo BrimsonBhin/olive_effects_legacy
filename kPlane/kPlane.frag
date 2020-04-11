@@ -1,10 +1,7 @@
-// Olive port of https://www.shadertoy.com/view/4tBBzG
-
-#version 330
-
+uniform vec2 resolution;
 uniform sampler2D image;
 varying vec2 vTexCoord;
-
+uniform bool tile;
 // The offsets are not akin to the pixel or percentage. Use with caution.
 uniform float kOffsetX;
 uniform float kOffsetY;
@@ -51,7 +48,7 @@ void main() {
     // Screen UV goes from 0 - 1 along each axis
     vec2 screenUV = vTexCoord;
     vec2 p = (2.0 * screenUV) - 1.0;
-    float screenAspect = vTexCoord.x/vTexCoord.y;
+    float screenAspect = resolution.x/resolution.y;
     p.x *= screenAspect;
 
     // Normalized Ray Dir
@@ -60,13 +57,33 @@ void main() {
 
     // Define the plane
     vec3 planePosition = vec3(kOffsetX * 0.01, kOffsetY * 0.01, kScale * 0.01);
-    vec3 planeRotation = vec3(kRotateX * 0.01, kRotateY * 0.01, kRotateZ * 0.01);
+    vec3 planeRotation = radians(vec3(kRotateX, kRotateY, kRotateZ));
     vec2 planeDimension = vec2(screenAspect, 1.0);
 
     vec2 uv = raytraceTexturedQuad(vec3(0), dir, planePosition, planeRotation, planeDimension);
 
-    // If we hit the rectangle, sample the texture
-    if(abs(uv.x - 0.5) < 0.5 && abs(uv.y - 0.5) < 0.5) {
-      gl_FragColor = texture2D(image, uv);
+    float adj_scale = 1.0;
+    float centerx = 0.0;
+    float centery = 0.0;
+    vec2 scaled_coords = (uv/adj_scale);
+    vec2 coord = scaled_coords-vec2(0.5/adj_scale)+vec2(0.5)+vec2(-centerx, -centery);
+    vec2 modcoord = mod(coord, 1.0);
+
+    if (mod(coord.x, 2.0) > 1.0) {
+        modcoord.x = 1.0 - modcoord.x;
+    }
+
+    if (mod(coord.y, 2.0) > 1.0) {
+        modcoord.y = 1.0 - modcoord.y;
+    }
+
+    if (tile) {
+        uv = modcoord;
+        gl_FragColor = texture2D(image, uv);
+    } else {
+        // If we hit the rectangle, sample the texture
+        if(abs(uv.x - 0.5) < 0.5 && abs(uv.y - 0.5) < 0.5) {
+            gl_FragColor = texture2D(image, uv);
+        }
     }
 }

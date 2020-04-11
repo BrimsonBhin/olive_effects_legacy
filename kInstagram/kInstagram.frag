@@ -2,20 +2,18 @@
 
 uniform sampler2D image;
 varying vec2 vTexCoord;
-uniform int look; // Look : (look), min=0, max=15
+uniform int look; // Look: min=0, max=15
 uniform bool f_con;
 
 // Algorithm from Chapter 16 of OpenGL Shading Language
-vec3 saturation(vec3 rgb, float adjustment)
-{
+vec3 saturation(vec3 rgb, float adjustment) {
     const vec3 W = vec3(0.2126, 0.7152, 0.0722);
     vec3 intensity = vec3(dot(rgb, W));
     return mix(intensity, rgb, adjustment);
 }
 
 // Real contrast adjustments by  Miles
-vec3 contrast(vec3 col, vec4 con)
-{
+vec3 contrast(vec3 col, vec4 con) {
     vec3 c = con.rgb * vec3(con.a);
     vec3 t = (vec3(1.0) - c) / vec3(2.0);
     t = vec3(.5);
@@ -23,13 +21,11 @@ vec3 contrast(vec3 col, vec4 con)
     return col;
 }
 
-vec3 sig (vec3 s)
-{
+vec3 sig (vec3 s) {
     return 1.0 / (1.0 + (exp(-(s - 0.5) * 7.0)));
 }
 
-void main() 
-{
+void main() {
     vec3 org = texture2D(image, vTexCoord).rgb;
     float alpha = texture2D(image, vTexCoord).a;
 
@@ -40,7 +36,6 @@ void main()
     float sat = 1.0;
     float con = 1.0;
     float gam = 1.0;
-    int f_con = 1;
 
     //  Instagram looks
     if (look == 1) {
@@ -158,10 +153,10 @@ void main()
     c = contrast(c, vec4(con));
 
     //apply film contrast
-    if (f_con == 0) {
-        c;
-    } else {
+    if (f_con) {
         c = sig(c);
+    } else {
+        c;
     }
 
     c = clamp(c, 0.0, 1.0);

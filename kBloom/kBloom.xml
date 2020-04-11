@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kBloom" category="kShaders">
-
-    <row name="Threshold">
-        <field type="double" min="0.01" default="4.0" id="kThres"/>
-    </row>
-
-    <row name="Smooth">
-        <field type="double" min="1.0" default="8.0" id="kRange"/>
+    <row name="Intensity">
+        <field type="double"  default="4.0" id="kThres"/>
     </row>
 
     <row name="Intensity">
-        <field type="double" min="0.0" default="8.0" id="kCol"/>
+        <field type="double"  default="4.0" id="kInt"/>
     </row>
 
     <row name="kSat">
-        <field type="double" min="0.0" default="2.0" id="kSat"/>
-    </row>
-
-    <row name="Blur Size">
-        <field type="double" min="1.0" default="16.0" id="kRadius"/>
+        <field type="double" default="2.0" id="kSat"/>
     </row>
 
     <shader vert="../COMMON/common.vert" frag="kBloom.frag"/>

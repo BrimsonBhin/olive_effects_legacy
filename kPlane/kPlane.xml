@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kPlane" category="kShaders">
 
+    <row name="Tile">
+        <field type="bool" default="0" id="tile"/>
+    </row>
+
     <row name="Offset">
         <field type="double" default="0.0" id="kOffsetX"/>
         <field type="double" default="0.0" id="kOffsetY"/>

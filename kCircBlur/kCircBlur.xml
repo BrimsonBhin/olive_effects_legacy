@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="kCircBlur" category="kShaders">
+
+    <row name="Blur">
+        <field type="double" min="0.0" default="1.0" id="kBlur"/>
+    </row>
+
+    <row name="Size">
+        <field type="double" min="0.0" default="48.0" id="kSize"/>
+    </row>
+
+    <row name="Softness">
+        <field type="double" min="0.0" default="64.0" id="kSoft"/>
+    </row>
+
+    <row name="Center">
+        <field type="double" default="0.0" id="kCenterX"/>
+        <field type="double" default="0.0" id="kCenterY"/>
+    </row>
+
+    <row name="Circular">
+        <field type="bool" default="false" id="kCircular"/>
+    </row>
+
+    <row name="Invert">
+        <field type="bool" default="false" id="kInvert"/>
+    </row>
+
+    <shader vert="../COMMON/common.vert" frag="kCircBlur.frag"/>
+</effect>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<effect name="kInstagram" category="kShaders">
+<effect name="kFilmLook" category="kShaders">
 
     <row name="Look">
         <field type="combo" default="0" id="look">
@@ -19,6 +19,9 @@
             <option>13</option>
             <option>14</option>
             <option>15</option>
+            <option>16</option>
+            <option>17</option>
+            <option>18</option>
         </field>
     </row>
 
@@ -26,5 +29,5 @@
         <field type="bool" default="false" id="f_con"/>
     </row>
 
-    <shader vert="../COMMON/common.vert" frag="kInstagram.frag"/>
+    <shader vert="../COMMON/common.vert" frag="kFilmLook.frag"/>
 </effect>

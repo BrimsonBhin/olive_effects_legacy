@@ -47,7 +47,7 @@ void main() {
 
     // tape crease
     float tcPhase = clamp((sin(uvn.y * 8.0 - time * PI * 1.2) - 0.92) * noise(vec2(time)), 0.0, 0.01) * 10.0;
-    float tcNoise = max( noise(vec2(uvn.y * 100.0, time * 10.0)) - 0.5, 0.0);
+    float tcNoise = max(noise(vec2(uvn.y * 100.0, time * 10.0)) - 0.5, 0.0);
     uvn.x = uvn.x - tcNoise * tcPhase;
 
     // switching noise

@@ -15,14 +15,14 @@ vec3 tex2D(sampler2D _tex, vec2 _p) {
 }
 
 float hash(vec2 _v) {
-    return fract(sin(dot( _v, vec2(89.44, 19.36))) * 22189.22);
+    return fract(sin(dot(_v, vec2(89.44, 19.36))) * 22189.22);
 }
 
 float iHash(vec2 _v, vec2 _r) {
-    float h00 = hash(vec2(floor( _v * _r + vec2(0.0)) / _r));
-    float h10 = hash(vec2(floor( _v * _r + vec2(1.0, 0.0)) / _r));
-    float h01 = hash(vec2(floor( _v * _r + vec2(0.0, 1.0)) / _r));
-    float h11 = hash(vec2(floor( _v * _r + vec2(1.0)) / _r));
+    float h00 = hash(vec2(floor(_v * _r + vec2(0.0)) / _r));
+    float h10 = hash(vec2(floor(_v * _r + vec2(1.0, 0.0)) / _r));
+    float h01 = hash(vec2(floor(_v * _r + vec2(0.0, 1.0)) / _r));
+    float h11 = hash(vec2(floor(_v * _r + vec2(1.0)) / _r));
     vec2 ip = vec2(smoothstep(vec2(0.0), vec2(1.0), mod(_v*_r, 1.0)));
     return (h00 * (1.0 - ip.x) + h10 * ip.x) * (1.0 - ip.y) + (h01 * (1.0 - ip.x) + h11 * ip.x) * ip.y;
 }

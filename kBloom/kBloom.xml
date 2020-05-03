@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <effect name="kBloom" category="kShaders">
-    <row name="Intensity">
-        <field type="double"  default="4.0" id="kThres"/>
-    </row>
-
-    <row name="Intensity">
-        <field type="double"  default="4.0" id="kInt"/>
-    </row>
 
     <row name="kSat">
         <field type="double" default="2.0" id="kSat"/>
     </row>
-
+    <row name="kThres">
+        <field type="double" default="2.0" id="kThres"/>
+    </row>
+    <row name="kIntensity">
+        <field type="double" default="2.0" id="kInt"/>
+    </row>
     <shader vert="../COMMON/common.vert" frag="kBloom.frag"/>
 </effect>

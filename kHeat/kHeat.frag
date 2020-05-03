@@ -171,11 +171,8 @@ float Value3D( vec3 P )
 
 void main()
 {
-    float time_scale = 0.1;
-    float time = time * time_scale;
-
+    float time = time * 0.1;
     vec2 uv = vTexCoord.xy;
-
     vec3 skew = hash33(vec3(uv.x, 8.0 * time, uv.y)) * 0.1;
 
     uv += 0.01 * Perlin3D(vec3((kXdetail * 10.0) * uv.x, kSpeed * time, (kYdetail * 10.0) * uv.y) + skew);

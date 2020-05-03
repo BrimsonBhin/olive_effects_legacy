@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="VHS" category="Community">
+
+    <shader vert="../COMMON/common.vert" frag="vhs.frag"/>
+
+</effect>

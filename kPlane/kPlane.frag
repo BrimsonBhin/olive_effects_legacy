@@ -60,7 +60,7 @@ void main() {
     vec3 planeRotation = radians(vec3(kRotateX, kRotateY, kRotateZ));
     vec2 planeDimension = vec2(screenAspect, 1.0);
 
-    vec2 uv = raytraceTexturedQuad(vec3(0), dir, planePosition, planeRotation, planeDimension);
+    vec2 uv = raytraceTexturedQuad(vec3(0.0), dir, planePosition, planeRotation, planeDimension);
 
     float adj_scale = 1.0;
     float centerx = 0.0;

@@ -26,5 +26,9 @@
         <field type="bool" default="false" id="kInvert"/>
     </row>
 
+    <row name="Black">
+        <field type="bool" default="false" id="kBlack"/>
+    </row>
+
     <shader vert="../COMMON/common.vert" frag="kCircBlur.frag"/>
 </effect>

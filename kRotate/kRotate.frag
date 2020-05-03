@@ -10,12 +10,10 @@ void main()
 
     // Degree Angle
     float rot = radians(kDegree);
-
+    
     uv-=0.5;
-
     mat2 m = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
    	uv  = m * uv;
-
     uv+=0.5;
 
     gl_FragColor = texture2D(tex, uv);

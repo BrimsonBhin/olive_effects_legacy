@@ -8,8 +8,7 @@ uniform float kSpeed;
 uniform float kSize;
 uniform float kStrength;
 
-void main()
-{
+void main() {
     vec2 uv = vTexCoord;
     float kSpeed = kSpeed * 0.1;
     float kSize = kSize * 0.1;

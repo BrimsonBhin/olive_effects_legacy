@@ -36,7 +36,6 @@ vec3 contrast(vec3 col, vec4 con) {
 return col;
 }
 
-
 void main() {
     vec2 uv = vTexCoord;
     vec4 org = texture2D(image, uv);

@@ -7,6 +7,8 @@ uniform float kSize;
 uniform float kSoft;
 uniform float kCenterX;
 uniform float kCenterY;
+
+uniform bool kBlack;
 uniform bool kCircular;
 uniform bool kInvert;
 
@@ -48,7 +50,7 @@ vec4 vignette(sampler2D inP, vec2 coord) {
     }
 
     float dist = distance(vignetteCoord, vec2(0.5 + kCenterX*0.01, 0.5 + kCenterY*0.01));
-    float size = (kSize*0.01);
+    float size = kSize*0.01;
 
     if (kInvert) {
         c *= 1.0 - smoothstep(size, size*0.99*(1.0-kSoft*0.01), dist);
@@ -56,14 +58,21 @@ vec4 vignette(sampler2D inP, vec2 coord) {
         c *= smoothstep(size, size*0.99*(1.0-kSoft*0.01), dist);
     }
 
+    if (kSize <= 0.0 && kInvert) {
+        c = texture2D(image, vTexCoord);
+    } else if (kSize <= 0.0 && kInvert == false) {
+        c = vec4(0.0, 0.0, 0.0, c.a);
+    }
+
     return c;
 }
 
 void main() {
-    vec2 uv = vTexCoord.xy;
-    vec4 base = texture2D(image, uv);
+    vec2 uv = vTexCoord;
     vec4 bg = blur(image, uv);
     vec4 col = vignette(image, uv);
 
-    gl_FragColor = vec4(bg.rgb*(1.0-col.a) + col.rgb, 1.0);
+    if (kBlack) { bg.a = 1.0; }
+
+    gl_FragColor = vec4(bg.rgb*(1.0-col.a) + col.rgb, bg.a);
 }

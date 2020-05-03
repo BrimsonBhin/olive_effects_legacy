@@ -16,7 +16,7 @@ vec3 saturation(vec3 rgb, float adjustment) {
 vec3 contrast(vec3 col, vec4 con) {
     vec3 c = con.rgb * vec3(con.a);
     vec3 t = (vec3(1.0) - c) / vec3(2.0);
-    t = vec3(.5);
+    t = vec3(0.5);
     col = (1.0 - c.rgb) * t + c.rgb * col;
     return col;
 }
@@ -209,7 +209,7 @@ void main() {
 
     //apply film contrast
     if (f_con) {
-        c = vec3(sig(c));
+        c = sig(c);
     } else {
         c;
     }

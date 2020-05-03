@@ -56,10 +56,10 @@ float simplex3d(vec3 p) {
 
      w = max(0.6 - w, mod(-time, -time) * resolution.yyyy);
 
-     d.x = dot(random3(s)-.5, x);
-     d.y = dot(random3(s + i1)-.5, x1);
-     d.z = dot(random3(s + i2)-.5, x2);
-     d.w = dot(random3(s + 1.0)-.5, x3);
+     d.x = dot(random3(s)-0.5, x);
+     d.y = dot(random3(s + i1)-0.5, x1);
+     d.z = dot(random3(s + i2)-0.5, x2);
+     d.w = dot(random3(s + 1.0)-0.5, x3);
 
      w *= w;
      w *= w;
@@ -68,21 +68,18 @@ float simplex3d(vec3 p) {
      return dot(d, vec4(52.0));
 }
 
-void main()
-{
+void main() {
+    float kSpeed = kSpeed * 0.01;
+    float kRotationAmount = kRotationAmount * 0.01;
     vec2 uv = vTexCoord.xy;
     uv = uv*2.0-1.0;
     vec3 p3 = vec3(0,0, (time + 1.0)*kSpeed)*8.0+8.0;
     vec3 noise = vec3(simplex3d(p3),simplex3d(p3+10.),simplex3d(p3+20.));
-    uv = rotate2D(uv, noise.z*kRotationAmount*0.1);
-    uv = (uv+1.)/2.;
+    uv = rotate2D(uv, noise.z*kRotationAmount);
+    uv = (uv+1.0)/2.0;
     uv += +noise.xy*kAmount*0.1;
 
-    float adj_scale = 1.0;
-    float centerx = 0.0;
-    float centery = 0.0;
-    vec2 scaled_coords = (uv/adj_scale);
-    vec2 coord = scaled_coords-vec2(0.5/adj_scale)+vec2(0.5)+vec2(-centerx, -centery);
+    vec2 coord = uv;
     vec2 modcoord = mod(coord, 1.0);
 
     if (mod(coord.x, 2.0) > 1.0) {
@@ -93,5 +90,5 @@ void main()
         modcoord.y = 1.0 - modcoord.y;
     }
 
-    gl_FragColor = vec4(texture2D(image, modcoord).rgb, 1.0);
+    gl_FragColor = texture2D(image, modcoord);
 }

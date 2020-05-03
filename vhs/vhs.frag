@@ -19,10 +19,10 @@ float hash(vec2 _v) {
 }
 
 float iHash(vec2 _v, vec2 _r) {
-    float h00 = hash(vec2(floor( _v * _r + vec2(0.0, 0.0)) / _r));
+    float h00 = hash(vec2(floor( _v * _r + vec2(0.0)) / _r));
     float h10 = hash(vec2(floor( _v * _r + vec2(1.0, 0.0)) / _r));
     float h01 = hash(vec2(floor( _v * _r + vec2(0.0, 1.0)) / _r));
-    float h11 = hash(vec2(floor( _v * _r + vec2(1.0, 1.0)) / _r));
+    float h11 = hash(vec2(floor( _v * _r + vec2(1.0)) / _r));
     vec2 ip = vec2(smoothstep(vec2(0.0), vec2(1.0), mod(_v*_r, 1.0)));
     return (h00 * (1.0 - ip.x) + h10 * ip.x) * (1.0 - ip.y) + (h01 * (1.0 - ip.x) + h11 * ip.x) * ip.y;
 }
@@ -53,7 +53,7 @@ void main() {
     // switching noise
     float snPhase = smoothstep(0.03, 0.0, uvn.y);
     uvn.y += snPhase * 0.3;
-    uvn.x += snPhase * ((noise(vec2( uv.y * 100.0, time * 10.0)) - 0.5) * 0.2);
+    uvn.x += snPhase * ((noise(vec2(uv.y * 100.0, time * 10.0)) - 0.5) * 0.2);
     
     col = tex2D(image, uvn);
     col *= 1.0 - tcPhase;
